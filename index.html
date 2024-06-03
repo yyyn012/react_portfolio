@@ -10,13 +10,30 @@
   </body>
   <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
-  <script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
     const root = document.getElementById("root");
-    const span = React.createElement(
-      "span",
-      { id: "span_one", style: { colo: "red" } },
-      "span"
+    const Title = (
+      <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+        Hello
+      </h3>
     );
-    ReactDOM.render(span, root);
+
+    const Button = (
+      <button
+        style={{
+          backgroundColor: "rgb(177, 227, 228)",
+          border: "none",
+          width: "60px",
+          height: "30px",
+        }}
+        onClick={() => console.log("clicked")}
+      >
+        Click
+      </button>
+    );
+    const container = React.createElement("div", null, [Title, Button]);
+    ReactDOM.render(container, root);
   </script>
 </html>
