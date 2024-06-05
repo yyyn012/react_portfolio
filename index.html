@@ -14,35 +14,26 @@
 
   <script type="text/babel">
     const root = document.getElementById("root");
-    const Title = () => {
-      return (
-        <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
-          Hello
-        </h3>
-      );
+
+    let counter = 0;
+
+    const countUp = () => {
+      counter = counter + 1;
+      render();
     };
 
-    const Button = () => {
-      return (
-        <button
-          style={{
-            backgroundColor: "rgb(177, 227, 228)",
-            border: "none",
-            width: "60px",
-            height: "30px",
-          }}
-          onClick={() => console.log("clicked")}
-        >
-          Click
-        </button>
-      );
+    const render = () => {
+      ReactDOM.render(<Container />, root);
     };
-    const Container = (
+
+    const Container = () => (
       <div>
-        <Title />
-        <Button />
+        <h3>Total clicks : {counter}</h3>
+        <button onClick={countUp}>Click here</button>
       </div>
     );
-    ReactDOM.render(Container, root);
+
+    render();
+    ReactDOM.render(<Container />, root);
   </script>
 </html>
