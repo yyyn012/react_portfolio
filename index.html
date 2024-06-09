@@ -14,31 +14,53 @@
 
   <script type="text/babel">
     function App() {
-      const [minutes, setMinutes] = React.useState();
+      const [amount, setAmount] = React.useState(0);
+      const [flipped, setFlipped] = React.useState(false);
+      // React.useState의 괄호 안의 값은 해당 state의 디폴트 값이 됨.
 
+      // 이벤트를 감지하고 value를 업데이트하기 위해 setAmount 함수(onChange) 사용
       const onChange = (event) => {
-        setMinutes(event.target.value);
-        // 데이터를 업데이트하기 위해 setMinutes 함수 사용
+        setAmount(event.target.value);
       };
+
+      const reset = () => setAmount(0);
+
+      const onFlip = () => {
+        reset();
+        setFlipped((current) => !current);
+      };
+      // setFlipped(!flipped)라고 입력해도 되지만 오류의 가능성을 줄이기 위해 현재의 값을 의미하는 변수인 current를 씀
 
       return (
         <div>
-          <h1 className="hi">Super Converter</h1>
-          <label htmlFor="minutes">Minutes</label>
-          <input
-            value={minutes}
-            id="minutes"
-            placeholder="Minutes"
-            type="number"
-            onChange={onChange}
-          />
-
-          <h4>You want to convert "{minutes}"</h4>
-
-          <label htmlFor="hours">Hours</label>
-          <input id="hours" placeholder="Hours" type="number" />
+          <div>
+            <h1 className="hi">Super Converter</h1>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={flipped ? amount * 60 : amount}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              disabled={flipped}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={flipped ? amount : Math.round(amount / 60)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              disabled={!flipped}
+              onChange={onChange}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>Flip</button>
         </div>
       );
+      // 여기서 onChange는 event가 발생했을 때, 값을 업데이트 해주고 UI에 보여주는 역할을 함
     }
 
     const root = document.getElementById("root");
