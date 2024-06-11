@@ -12,10 +12,11 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+  <!-- #3.9 -->
   <script type="text/babel">
-    function App() {
+    function MinutesToHours() {
       const [amount, setAmount] = React.useState(0);
-      const [flipped, setFlipped] = React.useState(false);
+      const [inverted, setInverted] = React.useState(false);
       // React.useState의 괄호 안의 값은 해당 state의 디폴트 값이 됨.
 
       // 이벤트를 감지하고 value를 업데이트하기 위해 setAmount 함수(onChange) 사용
@@ -25,42 +26,62 @@
 
       const reset = () => setAmount(0);
 
-      const onFlip = () => {
+      const onInvert = () => {
         reset();
-        setFlipped((current) => !current);
+        setInverted((current) => !current);
       };
       // setFlipped(!flipped)라고 입력해도 되지만 오류의 가능성을 줄이기 위해 현재의 값을 의미하는 변수인 current를 씀
 
       return (
         <div>
           <div>
-            <h1 className="hi">Super Converter</h1>
             <label htmlFor="minutes">Minutes</label>
             <input
-              value={flipped ? amount * 60 : amount}
+              value={inverted ? amount * 60 : amount}
               id="minutes"
               placeholder="Minutes"
               type="number"
               onChange={onChange}
-              disabled={flipped}
+              disabled={inverted}
             />
           </div>
           <div>
             <label htmlFor="hours">Hours</label>
             <input
-              value={flipped ? amount : Math.round(amount / 60)}
+              value={inverted ? amount : Math.round(amount / 60)}
               id="hours"
               placeholder="Hours"
               type="number"
-              disabled={!flipped}
+              disabled={!inverted}
               onChange={onChange}
             />
           </div>
           <button onClick={reset}>Reset</button>
-          <button onClick={onFlip}>Flip</button>
+          <button onClick={onInvert}>
+            {inverted ? "Turn back" : "Invert"}
+          </button>
         </div>
       );
       // 여기서 onChange는 event가 발생했을 때, 값을 업데이트 해주고 UI에 보여주는 역할을 함
+    }
+
+    function KmToMiles() {
+      return <h3>KM to Miles</h3>;
+    }
+
+    function App() {
+      const [index, setIndex] = React.useState(0);
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <select>
+            <option>Minutes & Hours</option>
+            <option>KM & Miles</option>
+          </select>
+          <MinutesToHours />
+          <KmToMiles />
+        </div>
+      );
     }
 
     const root = document.getElementById("root");
