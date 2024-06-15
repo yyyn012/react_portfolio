@@ -14,9 +14,7 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- #3.9 -->
   <script type="text/babel">
-    // MinutesToHours()
     function MinutesToHours() {
       const [amount, setAmount] = React.useState(0);
       const [inverted, setInverted] = React.useState(false);
@@ -34,23 +32,25 @@
 
       return (
         <div>
-          <h1>MinutesToHours</h1>
+          <h2>MINUTES TO HOURS</h2>
+
           <div>
             <label htmlFor="minutes">Minutes</label>
             <input
-              value={inverted ? amount * 60 : amount}
-              id="minutes"
               type="number"
+              id="minutes"
+              value={inverted ? amount * 60 : amount}
               onChange={onChange}
               disabled={inverted}
             />
           </div>
+
           <div>
             <label htmlFor="hours">Hours</label>
             <input
-              value={inverted ? amount : Math.round(amount / 60)}
-              id="hours"
               type="number"
+              id="hours"
+              value={inverted ? amount : Math.round(amount / 60)}
               onChange={onChange}
               disabled={!inverted}
             />
@@ -64,41 +64,37 @@
       );
     }
 
-    // KmToMiles() miles * 1.609 = KM
-    function KmToMiles() {
+    function MilesToKm() {
       const [distance, setDistance] = React.useState(0);
       const [inverted, setInverted] = React.useState(false);
 
-      const onChange = (event) => {
-        setDistance(event.target.value);
-      };
+      const onChange = (event) => setDistance(event.target.value);
 
       const reset = () => setDistance(0);
 
       const onInvert = () => {
-        reset();
         setInverted((current) => !current);
       };
 
       return (
         <div>
-          <h1>KmToMiles</h1>
+          <h2>MILES TO KM</h2>
           <div>
             <label htmlFor="miles">Miles</label>
             <input
-              value={inverted ? distance * 1.609 : distance}
+              type="text"
               id="miles"
-              type="number"
+              value={inverted ? distance * 1.609 : distance}
               onChange={onChange}
               disabled={inverted}
             />
           </div>
           <div>
-            <label htmlFor="Km">KM</label>
+            <label htmlFor="Km">Km</label>
             <input
-              value={inverted ? distance : Math.round(distance / 1.609)}
-              id="Km"
               type="number"
+              id="Km"
+              value={inverted ? Math.round(distance / 1.609) : distance}
               onChange={onChange}
               disabled={!inverted}
             />
@@ -112,26 +108,26 @@
       );
     }
 
-    //  App() : option으로 units 선택할 수 있게(render) 하기
     function App() {
       const [index, setIndex] = React.useState("x");
 
       const onSelect = (event) => {
         setIndex(event.target.value);
       };
+
       return (
         <div>
           <select value={index} onChange={onSelect}>
-            <option value="x">Select your units</option>
+            <option value="x">SELECT YOUR UNITS</option>
             <option value="0">MinutesToHours</option>
-            <option value="1">KmToMiles</option>
+            <option value="1">MilesToKm</option>
           </select>
 
           <hr />
 
-          {index === "x" ? "Please select your units" : null}
+          {index === "x" ? "SELECT YOUR UNITS" : null}
           {index === "0" ? <MinutesToHours /> : null}
-          {index === "1" ? <KmToMiles /> : null}
+          {index === "1" ? <MilesToKm /> : null}
         </div>
       );
     }
