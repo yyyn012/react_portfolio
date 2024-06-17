@@ -15,122 +15,40 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <script type="text/babel">
-    function MinutesToHours() {
-      const [amount, setAmount] = React.useState(0);
-      const [inverted, setInverted] = React.useState(false);
-
-      const onChange = (event) => {
-        setAmount(event.target.value);
-      };
-
-      const reset = () => setAmount(0);
-
-      const onInvert = () => {
-        reset();
-        setInverted((current) => !current);
-      };
-
+    function Btn({ text, onClick }) {
+      console.log(text, "was rendered");
       return (
-        <div>
-          <h3>MinutesToHours</h3>
-
-          <div>
-            <label htmlFor="minutes">Minutes</label>
-            <input
-              id="minutes"
-              value={inverted ? amount * 60 : amount}
-              type="number"
-              onChange={onChange}
-              disabled={inverted}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="hours">Hours</label>
-            <input
-              id="hours"
-              value={inverted ? amount : Math.round(amount / 60)}
-              type="number"
-              onChange={onChange}
-              disabled={!inverted}
-            />
-          </div>
-
-          <button onClick={reset}>RESET</button>
-          <button onClick={onInvert}>INVERT</button>
-        </div>
+        <button
+          onClick={onClick}
+          style={{
+            backgroundColor: "PowderBlue",
+            color: "white",
+            padding: "10px 20px",
+            border: 0,
+            borderRadius: 10,
+          }}
+        >
+          {text}
+        </button>
       );
     }
 
-    function MilesToKm() {
-      const [distance, setDistance] = React.useState(0);
-      const [inverted, setInverted] = React.useState(false);
-
-      const onChange = (event) => {
-        setDistance(event.target.value);
-      };
-
-      const reset = () => setDistance(0);
-
-      const onInvert = () => {
-        reset();
-        setInverted((current) => !current);
-      };
-
-      return (
-        <div>
-          <div>
-            <label htmlFor="miles">Miles</label>
-            <input
-              id="miles"
-              value={inverted ? distance * 1.609 : distance}
-              type="number"
-              onChange={onChange}
-              disabled={inverted}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="km">Km</label>
-            <input
-              id="km"
-              value={inverted ? distance : Math.round(distance / 1.609)}
-              type="number"
-              onChange={onChange}
-              disabled={!inverted}
-            />
-          </div>
-
-          <button onClick={reset}>RESET</button>
-          <button onClick={onInvert}>INVERT</button>
-        </div>
-      );
-    }
+    const MemorizedBtn = React.memo(Btn);
 
     function App() {
-      const [index, setIndex] = React.useState("x");
-
-      const onSelect = (event) => {
-        setIndex(event.target.value);
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => {
+        setValue("Revert Changes");
       };
-
       return (
         <div>
-          <select value="index" onChange={onSelect}>
-            <option value="x">SELECT YOUR UNITS</option>
-            <option value="0">MinutesToHours</option>
-            <option value="1">MilesToKm</option>
-          </select>
-
-          <hr />
-
-          {index === "x" ? <h1>SELECT YOUR UNITS</h1> : null}
-          {index === "0" ? <MinutesToHours /> : null}
-          {index === "1" ? <MilesToKm /> : null}
+          <MemorizedBtn text={value} onClick={changeValue} />
+          <MemorizedBtn text="Continue" />
         </div>
       );
     }
 
+    // <Btn /> 안에 onChange를 달아도 그건 이벤트리스너가 아닌 prop으로 적용된다. 이벤트 리스너로 onChange를 달고 싶다면 여기가 아니라 style처럼 function Btn안에 적어줘야 한다.
     const root = document.getElementById("root");
     ReactDOM.render(<App />, root);
   </script>
